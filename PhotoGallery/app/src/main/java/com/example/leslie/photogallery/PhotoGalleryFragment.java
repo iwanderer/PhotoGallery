@@ -40,12 +40,7 @@ public class PhotoGalleryFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
-                String result = new FlickrFetchr().getUrl("http://www.baidu.com");
-                Log.d(TAG, "Fetch content from url: " + result);
-            } catch (IOException e) {
-                Log.e(TAG, "Failed to fetch URL: ", e);
-            }
+            new FlickrFetchr().fetchItems();
             return null;
         }
     }
