@@ -5,10 +5,12 @@ import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class FlickrFetchr {
                 return null;
             }
 
-            int bytesRead = 0;
+            int bytesRead;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -56,7 +58,9 @@ public class FlickrFetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public void fetchItems() {
+    public ArrayList<GalleryItem> fetchItems() {
+        ArrayList<GalleryItem> items = new ArrayList<>();
+
         try {
             String url = Uri.parse(ENDPOINT).buildUpon()
                     .appendQueryParameter("method", METHOD_GET_RECENT)
@@ -64,10 +68,22 @@ public class FlickrFetchr {
                     .appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL)
                     .build().toString();
             String xmlString = getUrl(url);
+
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = factory.newPullParser();
+
+            parser.setInput(new StringReader(xmlString));
+
+            parseItems(items, parser);
+
             Log.i(TAG, "Received xml: " + xmlString);
         } catch (IOException e) {
             Log.e(TAG, "Failed to fetch items", e);
+        } catch (XmlPullParserException e) {
+            Log.e(TAG, "Failed to parse items", e);
         }
+
+        return items;
     }
 
     void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
