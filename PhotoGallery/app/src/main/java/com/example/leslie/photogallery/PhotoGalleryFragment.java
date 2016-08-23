@@ -48,7 +48,6 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-
     private class FetchItemsTask extends AsyncTask<Void, Void, ArrayList<GalleryItem>> {
 
         @Override
