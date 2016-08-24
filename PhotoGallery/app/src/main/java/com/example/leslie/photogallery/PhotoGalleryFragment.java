@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
-    private GridView mGridView;
-    private ArrayList<GalleryItem> mItems;
+    GridView mGridView;
+    ArrayList<GalleryItem> mItems;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class PhotoGalleryFragment extends Fragment {
         if (getActivity() == null || mGridView == null) return;
 
         if (mItems != null) {
-            mGridView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_gallery_item, mItems));
+            mGridView.setAdapter(new ArrayAdapter<GalleryItem>(getActivity(), android.R.layout.simple_gallery_item, mItems));
         } else {
             mGridView.setAdapter(null);
         }

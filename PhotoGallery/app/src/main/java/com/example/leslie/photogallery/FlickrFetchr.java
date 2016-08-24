@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
 
-    private static final String ENDPOINT = "http://api.flickr.com/services/rest/";
+    private static final String ENDPOINT = "https://api.flickr.com/services/rest/";
     private static final String API_KEY = "a898228d5854784b869bbefdce10d7b5";
     private static final String METHOD_GET_RECENT = "flickr.photos.getRecent";
     private static final String PARAM_EXTRAS = "extras";
@@ -30,7 +30,7 @@ public class FlickrFetchr {
 
     private static final String XML_PHOTO = "photo";
 
-    private byte[] getUrlBytes(String urlSpec) throws IOException {
+    byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -42,7 +42,7 @@ public class FlickrFetchr {
                 return null;
             }
 
-            int bytesRead;
+            int bytesRead = 0;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -68,6 +68,7 @@ public class FlickrFetchr {
                     .appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL)
                     .build().toString();
             String xmlString = getUrl(url);
+            Log.i(TAG, "Received xml: " + xmlString);
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = factory.newPullParser();
@@ -76,13 +77,11 @@ public class FlickrFetchr {
 
             parseItems(items, parser);
 
-            Log.i(TAG, "Received xml: " + xmlString);
         } catch (IOException e) {
             Log.e(TAG, "Failed to fetch items", e);
         } catch (XmlPullParserException e) {
             Log.e(TAG, "Failed to parse items", e);
         }
-
         return items;
     }
 
@@ -102,7 +101,6 @@ public class FlickrFetchr {
 
                 items.add(item);
             }
-
             eventType = parser.next();
         }
     }
