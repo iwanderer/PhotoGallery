@@ -30,7 +30,7 @@ public class FlickrFetchr {
 
     private static final String XML_PHOTO = "photo";
 
-    byte[] getUrlBytes(String urlSpec) throws IOException {
+    private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -85,7 +85,7 @@ public class FlickrFetchr {
         return items;
     }
 
-    void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
+    public void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
         int eventType = parser.next();
 
         while (eventType != XmlPullParser.END_DOCUMENT) {

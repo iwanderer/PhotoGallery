@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
-    GridView mGridView;
-    ArrayList<GalleryItem> mItems;
+    private GridView mGridView;
+    private ArrayList<GalleryItem> mItems;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
