@@ -42,7 +42,7 @@ public class FlickrFetchr {
                 return null;
             }
 
-            int bytesRead = 0;
+            int bytesRead;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -69,14 +69,11 @@ public class FlickrFetchr {
                     .build().toString();
             String xmlString = getUrl(url);
             Log.i(TAG, "Received xml: " + xmlString);
-
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = factory.newPullParser();
-
             parser.setInput(new StringReader(xmlString));
 
             parseItems(items, parser);
-
         } catch (IOException e) {
             Log.e(TAG, "Failed to fetch items", e);
         } catch (XmlPullParserException e) {
@@ -85,7 +82,7 @@ public class FlickrFetchr {
         return items;
     }
 
-    public void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
+    void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
         int eventType = parser.next();
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -101,6 +98,7 @@ public class FlickrFetchr {
 
                 items.add(item);
             }
+
             eventType = parser.next();
         }
     }
