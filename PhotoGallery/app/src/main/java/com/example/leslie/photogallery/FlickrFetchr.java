@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by leslie on 2016/8/15.
+ * Use to fetch data from flickr.com.
  */
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
@@ -30,6 +30,7 @@ public class FlickrFetchr {
 
     private static final String XML_PHOTO = "photo";
 
+    //Get data bytes from flickr.com
     private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -54,10 +55,12 @@ public class FlickrFetchr {
         }
     }
 
+    //Translate bytes to String
     public String getUrl(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
+    //Use the Url to fetch data and store in a GalleryItem list
     public ArrayList<GalleryItem> fetchItems() {
         ArrayList<GalleryItem> items = new ArrayList<>();
 
@@ -85,6 +88,7 @@ public class FlickrFetchr {
         return items;
     }
 
+    //Parse data from JSON to item and add to the list
     public void parseItems(ArrayList<GalleryItem> items, XmlPullParser parser) throws IOException, XmlPullParserException {
         int eventType = parser.next();
 

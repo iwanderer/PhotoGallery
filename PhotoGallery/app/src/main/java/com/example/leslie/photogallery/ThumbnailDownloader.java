@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by leslie on 2016/8/24.
  */
 public class ThumbnailDownloader<T> extends HandlerThread {
-    private static final String TAG = "ThumbnailDownlader";
+    private static final String TAG = "ThumbnailDownloader";
 
     public ThumbnailDownloader() {
         super(TAG);
